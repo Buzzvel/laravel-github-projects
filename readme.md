@@ -3,9 +3,8 @@
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Total Downloads][ico-downloads]][link-downloads]
 [![Build Status][ico-travis]][link-travis]
-[![StyleCI][ico-styleci]][link-styleci]
 
-This is where your description should go. Take a look at [contributing.md](contributing.md) to see a to do list.
+The respective package aims to return a listing or total of public, private or all projects.
 
 ## Installation
 
@@ -17,9 +16,6 @@ $ composer require buzzvel/laravel-github-projects
 
 ## Usage
 
-## Change log
-
-Please see the [changelog](changelog.md) for more information on what has changed recently.
 
 ## Testing
 
@@ -33,11 +29,11 @@ Please see [contributing.md](contributing.md) for details and a todolist.
 
 ## Security
 
-If you discover any security related issues, please email hendrix97s@outook.com instead of using the issue tracker.
+If you discover any security related issues, please email developers@buzzvel.com instead of using the issue tracker.
 
 ## Credits
 
-- [Hendrix97s][link-author]
+- [Luiz F. Lima](https://github.com/hendrix97s)
 - [All Contributors][link-contributors]
 
 ## License
