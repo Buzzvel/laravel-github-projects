@@ -2,7 +2,8 @@
 
 namespace Buzzvel\LaravelGithubProjects\Services;
 
-use Illuminate\Support\Facades\Http;
+use Exception;
+use GuzzleHttp\Client;
 
 /**
  *
@@ -15,24 +16,24 @@ use Illuminate\Support\Facades\Http;
  */
 class LaravelGithubProjectsServices
 {
-      /**
+    /**
      * Defines whether to return the total of projects or listing
      * @var boolean
      */
     protected $total = false;
-    
+
     /**
      * Defines to return only user projects
      * @var string
      */
     protected $affiliation = "owner";
-    
+
     /**
      * Defines that it should return all projects
      * @var string
      */
     protected $visibility = "all";
-    
+
     /**
      * Github account username
      * @var string
@@ -58,7 +59,8 @@ class LaravelGithubProjectsServices
      * @param string $username
      * @param string $personalAccessToken
      */
-    public function __construct(){
+    public function __construct()
+    {
         $this->username = config('githubprojects.username');
         $this->personalAccessToken   = config('githubprojects.personal_access_token');
     }
@@ -70,13 +72,14 @@ class LaravelGithubProjectsServices
      * @param boolean $encode 
      * @return string Endpoint for request
      */
-    private function getEndpoint(string $resource, array $params = [], bool $encode = true){
+    private function getEndpoint(string $resource, array $params = [], bool $encode = true)
+    {
         $resources = [
             "user.repos" => '/user/repos?visibility={visibility}&affiliation={affiliation}',
             "orgs.repos" => '/orgs/{orgs}/repos?type=all&per_page=100'
         ];
-        
-        $endpoint = $this->baseUri.$resources[$resource];
+
+        $endpoint = $this->baseUri . $resources[$resource];
 
         foreach ($params as $parameter => $value) {
             if ($encode) $value = rawurlencode($value); // convert for default url
@@ -87,30 +90,40 @@ class LaravelGithubProjectsServices
     }
 
     /**
+     * Request header
+     * @return array
+     */
+    private function getHeaders()
+    {
+        return [
+            "headers" => [
+                "Accept" => "application/vnd.github.v3+json"
+            ],
+            "auth" => [$this->username, $this->personalAccessToken],
+        ];
+    }
+
+    /**
      * The following method is responsible for sending request to github
      * @param string $method
      * @param string $resource
      * @param array $params 
      * @return string Response
      */
-    protected function send(string $method = 'get', string $resource, array $params = []){
+    protected function send(string $method = 'GET', string $resource, array $params = [])
+    {
         try {
-            $endpoint = $this->getEndpoint($resource, $params);
-            $headers  = ["Accept" => "application/vnd.github.v3+json"];
-            
-            $response = Http::withBasicAuth($this->username, $this->personalAccessToken)
-            ->withHeaders($headers)
-            ->get($endpoint)->body();
+            $endpoint     = $this->getEndpoint($resource, $params);
+            $headers      = $this->getHeaders();
+            $client       = new Client();
+            $response     = $client->request($method, $endpoint, $headers);
+            $response     = $response->getBody()->getContents();
 
-            if($this->total) return count(json_decode($response));
-            
+            if ($this->total) return count(json_decode($response));
+
             return $response;
-
         } catch (\Throwable $th) {
-            return $th->getMessage();
+            throw new Exception($th->getMessage(), 1);
         }
     }
 }
-
-
-
