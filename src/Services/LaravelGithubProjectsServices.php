@@ -61,8 +61,8 @@ class LaravelGithubProjectsServices
      */
     public function __construct()
     {
-        $this->username = config('githubprojects.username');
-        $this->personalAccessToken   = config('githubprojects.personal_access_token');
+        $this->username = config('laravel-github-projects.username');
+        $this->personalAccessToken = config('laravel-github-projects.personal_access_token');
     }
 
     /**
