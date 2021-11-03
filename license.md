@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) Hendrix97s <hendrix97s@outook.com>
+Copyright (c) Buzzvel <developers@buzzvel.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
