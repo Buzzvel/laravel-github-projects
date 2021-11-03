@@ -14,14 +14,53 @@ Via Composer
 $ composer require buzzvel/laravel-github-projects
 ```
 
-## Usage
-
-
-## Testing
+Publishing the provider
 
 ``` bash
-$ composer test
+$ php artisan vendor:publish --provider="Buzzvel\LaravelGithubProjects\LaravelGithubProjectsServiceProvider" 
 ```
+
+Declare variables in .env
+
+```
+GITHUB_USERNAME=<YOUR_ORANIZATION_NAME>
+GITHUB_PERSONAL_ACCESS_TOKEN=<YOUR_PERSONAL_ACCESS_TOKEN>
+```
+
+## Usage
+
+**Listing all repositories owned by user github**
+``` php
+LaravelGithubProjects::user()->get();
+```
+It is also possible to put the visibility() method in the user() method and pass it as a public or private parameter to return the listing according to desired visibility.
+
+**Example:**
+``` php
+LaravelGithubProjects::user()->visibility('private')->get();
+```
+
+**Listing all repositories belonging to the organization**
+``` php
+LaravelGithubProjects::orgs()->get();
+```
+
+To return the total of repositories, just chain the total() method
+
+**Examples:**
+
+``` php
+// total user's private projects
+LaravelGithubProjects::user()->visibility('private')->total()->get();
+
+// total of organization's projects
+LaravelGithubProjects::orgs()->total()->get();
+
+```
+
+
+
+
 
 ## Contributing
 
