@@ -27,10 +27,13 @@ GITHUB_USERNAME=<YOUR_ORANIZATION_NAME>
 GITHUB_PERSONAL_ACCESS_TOKEN=<YOUR_PERSONAL_ACCESS_TOKEN>
 ```
 
+How to create personal access token? [Click here](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)
+
 ## Usage
 
 **Listing all repositories owned by user github**
 ``` php
+
 LaravelGithubProjects::user()->get();
 ```
 It is also possible to put the visibility() method in the user() method and pass it as a public or private parameter to return the listing according to desired visibility.
