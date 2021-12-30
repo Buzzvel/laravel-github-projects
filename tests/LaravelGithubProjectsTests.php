@@ -8,7 +8,8 @@ use Orchestra\Testbench\TestCase;
 
 class LaravelGithubProjectsTests extends TestCase{
 
-    public function test_total_projects_on_org_github(){
+    /** @test */
+    public function total_projects_on_org_github(){
         $laravelGithubProjects = new LaravelGithubProjects();
         $result = $laravelGithubProjects->orgs()->total()->get();
         $expected = 40;

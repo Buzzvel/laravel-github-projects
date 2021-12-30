@@ -28,17 +28,17 @@ class LaravelGithubProjects extends LaravelGithubProjectsServices
      * The property stores the resource that will be sent to the endpoint.
      * @var string
      */
-    private string $resouce = '';
+    private string $resource = '';
     
     /**
      * Get list projects or total of projects
      * @return int|string
      */
     public function get(){
-        if(!strlen($this->resouce)) throw new Exception("Use the orgs() or user() chained method before get()", 1);
+        if(!strlen($this->resource)) throw new Exception("Use the orgs() or user() chained method before get()", 1);
         
-        return Cache::remember($this->resouce, 60*60*24, function(){
-            return $this->send('get', $this->resouce, $this->params);
+        return Cache::remember('get-projects-'.$this->resource.'-'.$this->total, 60*60*24, function(){
+            return $this->send('get', $this->resource, $this->params);
         });
     }
     
@@ -80,7 +80,7 @@ class LaravelGithubProjects extends LaravelGithubProjectsServices
             'affiliation' => $this->affiliation
         ];
         
-        $this->resouce = 'user.repos';
+        $this->resource = 'user.repos';
         return $this;
     }
     
@@ -90,7 +90,7 @@ class LaravelGithubProjects extends LaravelGithubProjectsServices
      */
     public function orgs(){
         $this->params = [ 'orgs' => $this->username ];
-        $this->resouce = 'orgs.repos';
+        $this->resource = 'orgs.repos';
         return $this;
     }
     
